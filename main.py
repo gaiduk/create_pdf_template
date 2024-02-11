@@ -14,6 +14,7 @@ import pandas as pd
 #
 # pdf.output("output.pdf")
 pdf = FPDF(orientation="p", unit="mm", format="A4")
+pdf.set_auto_page_break(auto=False, margin=0)
 
 df = pd.read_csv("topics.csv")
 
@@ -24,5 +25,19 @@ for index, row in df.iterrows():
     pdf.set_text_color(110, 120, 90)
     pdf.cell(w=0, h=12, txt=row["Topic"], align="L", ln=1)
     pdf.line(11, 23, 199, 23)
+
+    pdf.ln(260)
+    pdf.set_font(family="Times", style="I", size=10)
+    pdf.set_text_color(190, 190, 190)
+    pdf.cell(w=0, h=10, txt=row["Topic"], align="R")
+
+    for i in range(row["Pages"] - 1):
+        pdf.add_page()
+
+        pdf.ln(270)
+        pdf.set_font(family="Times", style="I", size=10)
+        pdf.set_text_color(190, 190, 190)
+        pdf.cell(w=0, h=10, txt=row["Topic"], align="R")
+
 
 pdf.output("output.pdf")
